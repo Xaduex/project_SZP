@@ -16,6 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from SZP import views
+
 urlpatterns = [
+    path("", views.IndexView.as_view(), name='index'),
     path('admin/', admin.site.urls),
+    path("all/", views.MachinesListView.as_view(), name='machines'),
+    path("create/", views.CreateMachineView.as_view(), name='create_machine'),
+    path("delete/<int:pk>/", views.DeleteMachineView.as_view(), name='delete_machine'),
+    path("update/<int:pk>/", views.UpdateMachineView.as_view(), name='update_machine'),
 ]

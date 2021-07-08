@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for obj in  object_list%}
+        <p>
+            {{ obj.name }}
+
+            <a href="{% url 'update_machine' obj.pk%}">Aktualizuj </a> <a href="{% url 'delete_machine' obj.pk%}">Usuń</a>
+
+        <h3> {{ obj.vendor }} {{ obj.type }}</h3>
+        </p>
+    {% endfor %}
+
+{% endblock %}

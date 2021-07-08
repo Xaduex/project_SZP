@@ -14,6 +14,24 @@ class User(models.Model):
     def __str__(self):
         return f"{self.name}, {self.surname}, {self.position}, {self.vacations_start}, {self.vacations_end}, {self.sick_leave}"
 
+class Tank(models.Model):
+    NOT_DEFINED = -1
+    TANK_CHOICES = [
+        (0, 'hydroakumulator'),
+        (1, 'akumulator tłokowy'),
+    ]
+    capacity = models.IntegerField()
+    type = models.IntegerField(choices=TANK_CHOICES, default=NOT_DEFINED)
+    max_pressure = models.IntegerField()
+    work_pressure = models.IntegerField()
+    valve_setting_pressure = models.IntegerField()
+    serial_number = models.CharField(max_length=128)
+    UDT_number = models.CharField(max_length=128)
+    UDT_date = models.DateField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.capacity}, {self.type}, {self.max_pressure}, {self.work_pressure}, {self.valve_setting_pressure}, {self.serial_number}, {self.UDT_number}, {self.UDT_date}"
+
 class Machines(models.Model):
     MT_NOT_DEFINED = -1
     MACHINE_CHOICES = [
@@ -35,9 +53,10 @@ class Machines(models.Model):
     pressure = models.IntegerField()
     pressure_tank = models.IntegerField()
     technological_schema = models.BooleanField(default=True)
+    tank = models.ForeignKey(Tank, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
-        return f"{self.name}, {self.vendor}, {self.serial_number}, {self.power_consumption}, {self.type}, {self.orientation}, {self.pressure}, {self.pressure_tank}, {self.technological_schema}"
+        return f"{self.name}, {self.vendor}, {self.serial_number}, {self.power_consumption}, {self.type}, {self.orientation}, {self.pressure}, {self.pressure_tank}, {self.technological_schema}, {self.tank}"
 
 class Furnace(models.Model):
     NOT_DEFINED = -1
@@ -51,25 +70,6 @@ class Furnace(models.Model):
 
     def __str__(self):
         return f"{self.capacity}, {self.power_source}, {self.machine}"
-
-class Tank(models.Model):
-    NOT_DEFINED = -1
-    TANK_CHOICES = [
-        (0, 'hydroakumulator'),
-        (1, 'akumulator tłokowy'),
-    ]
-    capacity = models.IntegerField()
-    type = models.IntegerField(choices=TANK_CHOICES, default=NOT_DEFINED)
-    max_pressure = models.IntegerField()
-    work_pressure = models.IntegerField()
-    valve_setting_pressure = models.IntegerField()
-    serial_number = models.CharField(max_length=128)
-    UDT_number = models.CharField(max_length=128)
-    UDT_date = models.DateField(null=True, blank=True)
-    machine = models.ForeignKey(Machines, on_delete=models.CASCADE, null=True)
-
-    def __str__(self):
-        return f"{self.capacity}, {self.type}, {self.max_pressure}, {self.work_pressure}, {self.valve_setting_pressure}, {self.serial_number}, {self.UDT_number}, {self.UDT_date}, {self.machine}"
 
 class CastingMold(models.Model):
     index = models.CharField(max_length=128)
