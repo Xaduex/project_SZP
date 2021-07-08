@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import User, Machines, Furnace, Tank, CastingMold, TechSchema
+from .models import Machines, Furnace, Tank, CastingMold, TechSchema, Employee
 
 # Register your models here.
 
-admin.site.register(User)
+admin.site.register(Employee)
 admin.site.register(Machines)
 admin.site.register(Furnace)
 admin.site.register(Tank)

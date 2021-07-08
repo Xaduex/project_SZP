@@ -1,18 +1,19 @@
+from django.contrib.auth.models import User, Group
 from django.db import models
 
 # Create your models here.
 
 
-class User(models.Model):
-    name = models.CharField(max_length=64)
-    surname = models.CharField(max_length=64)
+
+class Employee(models.Model):
     position = models.CharField(max_length=64)
     vacations_start = models.DateField(null=True, blank=True)
     vacations_end = models.DateField(null=True, blank=True)
     sick_leave = models.BooleanField(default=False)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.name}, {self.surname}, {self.position}, {self.vacations_start}, {self.vacations_end}, {self.sick_leave}"
+        return f"{self.position}, {self.vacations_start}, {self.vacations_end}, {self.sick_leave}. {self.user}"
 
 class Tank(models.Model):
     NOT_DEFINED = -1
@@ -96,3 +97,4 @@ class TechSchema(models.Model):
 
     def __str__(self):
         return f"{self.machine}, {self.casting_mold}, {self.detail_name}, {self.alloy_type}, {self.pdf_file}"
+
